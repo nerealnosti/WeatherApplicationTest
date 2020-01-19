@@ -1,0 +1,334 @@
+﻿<UserControl x:Class="WeatherApplicationTest.UC.SearchControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WeatherApplicationTest.UC"
+             xmlns:Comm="clr-namespace:WeatherApplicationTest.UControl"
+             xmlns:home="clr-namespace:WeatherApplicationTest"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Converters="clr-namespace:WeatherApplicationTest.ViewModel.Converter"
+             xmlns:prop="clr-namespace:WeatherApplicationTest.UControl.Model"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="150"
+             DataContext="{StaticResource VM}"
+             Name="Main"
+             
+             >
+    <UserControl.Resources>
+        <Converters:Converter2 x:Key="Cnvrt"/>
+        <ImageBrush x:Key="WhiteLoop" ImageSource="Img/Loop.png"/>
+        <ImageBrush x:Key="YellowLoop" ImageSource="Img/YellowLoop.png"/>
+        <SolidColorBrush x:Key="BackofSearchTextBox" Color="Black" Opacity="0.9"/>
+        
+        <Style x:Key="SearchTextBox" TargetType="TextBox">
+            <Setter Property="FontFamily" Value="/Assets/BRLNSR.TTF#Berlin Sans FB"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource BackofSearchTextBox}"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Width" Value="{Binding WidthAct.WidthProp, Converter={StaticResource Cnvrt},Mode=TwoWay, ConverterParameter='0,4',UpdateSourceTrigger=PropertyChanged}"/>
+            <Setter Property="FontSize" Value="{Binding WidthAct.WidthProp, Converter={StaticResource Cnvrt}, ConverterParameter='0,05',UpdateSourceTrigger=PropertyChanged}"/>
+
+            
+        </Style>
+
+        <Style x:Key="SearchTextBlock" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="/Assets/BRLNSR.TTF#Berlin Sans FB"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="{StaticResource BackofSearchTextBox}"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Width" Value="{Binding WidthAct.WidthProp, Converter={StaticResource Cnvrt},Mode=TwoWay, ConverterParameter='0,4',UpdateSourceTrigger=PropertyChanged}"/>
+            <Setter Property="FontSize" Value="{Binding WidthAct.WidthProp, Converter={StaticResource Cnvrt}, ConverterParameter='0,05',UpdateSourceTrigger=PropertyChanged}"/>
+        </Style>
+
+        <Style  TargetType="TextBox" x:Key="NoResult">
+            <Setter Property="FontFamily" Value="/Assets/BRLNSR.TTF#Berlin Sans FB"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="DarkRed"/>
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Width" Value="{Binding WidthAct.Width, Converter={StaticResource Cnvrt},Mode=OneWay, ConverterParameter='0,4',UpdateSourceTrigger=PropertyChanged}"/>
+            <Style.Triggers>
+                <DataTrigger  Binding="{Binding NoResultSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" Value="true">
+                    <Setter Property="Text" Value="no result"/>
+                    <DataTrigger.EnterActions >
+                        
+                        <RemoveStoryboard BeginStoryboardName="noResultST"/>
+                        <RemoveStoryboard BeginStoryboardName="noResultSF"/>
+                        <RemoveStoryboard BeginStoryboardName="noResponse"/>
+                        <RemoveStoryboard BeginStoryboardName="noResponseT"/>
+                        
+                        <BeginStoryboard x:Name="noResultST" >
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1"  Duration="0:0:0.5" />
+                            </Storyboard>
+                        </BeginStoryboard>
+
+                    </DataTrigger.EnterActions>
+                </DataTrigger>
+
+                <DataTrigger  Binding="{Binding NoResultSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" Value="false">
+                    
+                    <DataTrigger.EnterActions >
+
+                        <RemoveStoryboard BeginStoryboardName="noResultST"/>
+                        <RemoveStoryboard BeginStoryboardName="noResultSF"/>
+                        <RemoveStoryboard BeginStoryboardName="noResponse"/>
+                        <RemoveStoryboard BeginStoryboardName="noResponseT"/>
+
+                        <BeginStoryboard x:Name="noResultSF" >
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0"  Duration="0:0:0.5" />
+                            </Storyboard>
+                        </BeginStoryboard>
+
+                    </DataTrigger.EnterActions>
+                </DataTrigger>
+
+                <DataTrigger  Binding="{Binding  NoResponse, Mode=OneWay, UpdateSourceTrigger=PropertyChanged }" Value="true">
+                    <Setter Property="Text" Value="no server response"/>
+                    <DataTrigger.EnterActions >
+        
+                        <RemoveStoryboard BeginStoryboardName="noResultST"/>
+                        <RemoveStoryboard BeginStoryboardName="noResultSF"/>
+                        <RemoveStoryboard BeginStoryboardName="noResponse"/>
+                        <RemoveStoryboard BeginStoryboardName="noResponseT"/>
+
+                        <BeginStoryboard x:Name="noResponse" >
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1"  Duration="0:0:0.5" />
+                            </Storyboard>
+                        </BeginStoryboard>
+
+                    </DataTrigger.EnterActions>
+
+                </DataTrigger>
+
+                <DataTrigger  Binding="{Binding  NoResponse, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged }" Value="false">
+                    
+                    <DataTrigger.EnterActions >
+
+                        <RemoveStoryboard BeginStoryboardName="noResultST"/>
+                        <RemoveStoryboard BeginStoryboardName="noResultSF"/>
+                        <RemoveStoryboard BeginStoryboardName="noResponse"/>
+                        <RemoveStoryboard BeginStoryboardName="noResponseT"/>
+
+                        <BeginStoryboard x:Name="noResponseT" >
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity" From="1" To="0"  Duration="0:0:0.5" />
+                            </Storyboard>
+                        </BeginStoryboard>
+
+                    </DataTrigger.EnterActions>
+
+                </DataTrigger>
+
+
+            </Style.Triggers>
+            
+            
+        </Style>
+
+
+        <ResourceDictionary x:Key="x" Source="/UControl/ScrollBar.xaml"/>
+
+        
+
+    </UserControl.Resources>
+    <Grid  HorizontalAlignment="Right" DataContext="{StaticResource VM}"
+           
+           Width="{Binding WidthAct.WidthProp, Converter={StaticResource Cnvrt},Mode=TwoWay, ConverterParameter='0,4',UpdateSourceTrigger=PropertyChanged}">
+
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Canvas >
+            <StackPanel>
+                <TextBox Grid.ColumnSpan="2" 
+                         x:Name="SearchTextBox" 
+                         Padding="2,2,35,2"
+                         MaxLength="20"
+                         Text="{Binding Query,UpdateSourceTrigger=PropertyChanged}"
+                         Style="{StaticResource SearchTextBox}"
+                         >
+                    
+
+                   
+
+
+                </TextBox>
+
+                <TextBox  Name="NoResultTextBlock"
+                          Style="{StaticResource NoResult}"
+                          IsEnabled="False"
+                          Background="Red"
+                          FontSize="{Binding WidthAct.Width, Converter={StaticResource Cnvrt}, ConverterParameter='0,03',UpdateSourceTrigger=PropertyChanged}"
+                          Opacity="0"
+                     
+                   >
+                    
+                </TextBox>
+            </StackPanel>
+
+        </Canvas>
+
+        <Button   Grid.Column="1" x:Name="ButtonSearch" 
+                  Width="{Binding WidthAct.WidthProp, Converter={StaticResource Cnvrt}, ConverterParameter='0,065',UpdateSourceTrigger=PropertyChanged}" 
+                  Height="{Binding WidthAct.WidthProp, Converter={StaticResource Cnvrt}, ConverterParameter='0,065',UpdateSourceTrigger=PropertyChanged}"
+                  HorizontalAlignment="Right" 
+                  Command="{Binding Command}"
+                 >
+
+
+            
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter  Property="Background" Value="{StaticResource WhiteLoop}"/>
+                    
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate x:Name="C" TargetType="Button">
+                                <Border x:Name="borderr" Background="{StaticResource WhiteLoop}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger  Property="IsMouseOver" Value="true">
+                                        
+                                        <Setter TargetName="borderr"  Property="Background" Value="{StaticResource YellowLoop}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                                
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    
+                    
+                    
+                </Style>
+            </Button.Style>
+            <Button.BorderThickness>
+                0
+            </Button.BorderThickness>
+
+        </Button>
+
+
+        <Canvas Grid.Row="1" 
+                Grid.Column="0" 
+                Grid.ColumnSpan="2" 
+                Width="{Binding WidthAct.WidthProp, Converter={StaticResource Cnvrt},Mode=TwoWay, ConverterParameter='0,4',UpdateSourceTrigger=PropertyChanged}"
+                DataContext="{StaticResource VM}">
+            
+                <ListView x:Name="DropDownList" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                          ItemsSource="{Binding Cities}"
+                          SelectedValue="{Binding SelectedCity}"
+                          Visibility="Visible"
+                          FontSize="{Binding WidthAct.Width, Converter={StaticResource Cnvrt}, ConverterParameter='0,4'}"
+                          Width="{Binding WidthAct.Width, Converter={StaticResource Cnvrt}, ConverterParameter='0,4'}"
+                          Height="0"
+                          MaxHeight="{Binding WidthAct.Height, Converter={StaticResource Cnvrt}, ConverterParameter='0,20'}"
+                          Background="{StaticResource BackofSearchTextBox}"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                          BorderThickness="0"
+                          
+                          
+                      >
+
+
+                <ListView.Style >
+                    <Style TargetType="{x:Type ListView}" >
+                        <Style.Triggers>
+
+                            
+                            <DataTrigger Binding="{Binding CitiesEmpty,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="false" >
+                                
+                                <DataTrigger.EnterActions>
+                                    <RemoveStoryboard BeginStoryboardName="DropDownView"/>
+                                    <RemoveStoryboard BeginStoryboardName="UPA"/>
+                                    <BeginStoryboard x:Name="DropDownView">
+                                        <Storyboard >
+                                            
+                                            <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                From="0" To="200"
+                                                 Duration="0:0:0.5">
+
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+
+                                    
+
+                                </DataTrigger.EnterActions>
+                               
+                                
+                            </DataTrigger>
+
+
+                            <DataTrigger Binding="{Binding CitiesEmpty ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="true">
+
+                            <DataTrigger.EnterActions>
+
+                                    <RemoveStoryboard BeginStoryboardName="DropDownView"/>
+                                    <RemoveStoryboard BeginStoryboardName="UPA"/>
+                                    <BeginStoryboard x:Name="UPA">
+                                        <Storyboard >
+
+                                            <DoubleAnimation Storyboard.TargetProperty="Height"
+                                                From="200" To="0"
+                                                 Duration="0:0:0.5">
+
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+
+
+
+                                </DataTrigger.EnterActions>
+
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.Style>
+
+                <ListView.Resources>
+
+                    <ResourceDictionary Source="/UControl/ScrollBar.xaml"/>
+                    
+                </ListView.Resources>
+                    <ListView.ItemTemplate>
+                        
+                        <DataTemplate>
+                            <TextBlock Style="{StaticResource SearchTextBlock}" 
+                                       Foreground="White" 
+                                       FontSize="{Binding RelativeSource={
+                                                    RelativeSource Mode=FindAncestor,
+                                                    AncestorType=ListView},
+                                                    Path=FontSize, Converter={StaticResource Cnvrt}, ConverterParameter='0,1'}"
+                                       Background="Transparent"
+                                       Text="{Binding LocalizedName ,UpdateSourceTrigger=PropertyChanged }">
+                            
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            
+        </Canvas>
+
+
+    </Grid>
+</UserControl>

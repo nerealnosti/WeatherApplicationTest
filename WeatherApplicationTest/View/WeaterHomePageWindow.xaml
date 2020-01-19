@@ -1,0 +1,412 @@
+﻿<Window x:Class="WeatherApplicationTest.WeaterHomePageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WeatherApplicationTest"
+        xmlns:UC="clr-namespace:WeatherApplicationTest.UC"
+        xmlns:UCFive="clr-namespace:WeatherApplicationTest.UControl"
+        xmlns:ConverterValue="clr-namespace:WeatherApplicationTest.ViewModel.Commands"
+        xmlns:Converters="clr-namespace:WeatherApplicationTest.ViewModel.Converter"
+        xmlns:main="clr-namespace:WeatherApplicationTest"
+        mc:Ignorable="d"
+        Title="WeaterHomePageWindow" Height="800" Width="400" 
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+        Topmost="True"
+        WindowStyle="None"  AllowsTransparency="True" Background="Transparent"
+        Name="Main"
+        DataContext="{StaticResource VM}"
+        MouseDown="Main_MouseDown"
+        >
+    <Window.Resources>
+        <ImageBrush ImageSource="{Binding SelectedCity.Country.LocalizedName, Converter={StaticResource Flag} }" x:Key="flagPath"/>
+        <SolidColorBrush x:Key="CityTextColor" Color="#000000"/>
+        <ConverterValue:Converter x:Key="Cnvrvle"/>
+        <ConverterValue:WindSpeedConverter x:Key="WindSpeed"/>
+        <ConverterValue:PressureTandConverter x:Key="Pressure"/>
+        <Converters:FromDoubleToIntConverter x:Key="DoubleToInt"/>
+        <LinearGradientBrush x:Name="mainBackGroundDayTime" x:Key="mainBackGround">
+            <GradientStop Color="#444B69" Offset="0.3"/>
+            <GradientStop Color="#30324D" Offset="0.5"/>
+            <GradientStop Color="#0A0B13" Offset="0.8"/>
+            <GradientStop Color="#000000" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Resources> 
+    <StackPanel x:Name="Stack" Background="{Binding IsDayTime, Converter={StaticResource NightDay}}" Focusable="True" MouseDown="MainWindowGrid_MouseDown"
+                DataContext="{Binding CurrentCondition,UpdateSourceTrigger=PropertyChanged}"
+                SizeChanged="Stack_SizeChanged">
+
+       
+
+        <DockPanel LastChildFill="False" Panel.ZIndex="1">
+
+            <TextBlock x:Name="WeatherApplication"
+                       DockPanel.Dock="Left"
+                       Style="{StaticResource TitleTextBox}"
+                       Text="WeatherApplication"
+                       Padding="5"
+                       FontSize="15"
+                       Margin="5"
+                       IsEnabled="False"
+            />
+
+            
+
+            <Button x:Name="CloseButton"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource CloseMinimizeButtons}"
+                    Content="X"
+                   
+                    Margin="5"
+                    Click="MinimizeButton_Click"
+            />
+
+            <Button x:Name="MinimizeButton"
+                    DockPanel.Dock="Right"
+                    Style="{StaticResource CloseMinimizeButtons}"
+                    Content="-"
+                    FontSize="25"
+                    
+            />
+
+
+        </DockPanel>
+
+        <Grid Panel.ZIndex="3">
+            <DockPanel >
+                <UC:SearchControl  Margin="0,10,10,0"
+                               DockPanel.Dock="Right" />
+            </DockPanel>
+        </Grid>
+
+
+
+
+
+
+        <StackPanel x:Name="imageStack" Orientation="Horizontal" Panel.ZIndex="2">
+
+
+
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <Image x:FieldModifier="public" x:Name="img"  Source="{Binding WeatherIcon, Converter={StaticResource WeaterIcon}}" Stretch="Fill"
+                      Height="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,6'}"
+                      Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,6'}"
+                      >
+
+                        <Image.RenderTransform >
+
+                            <RotateTransform CenterX="{Binding ActualTempStackSize.Width, ConverterParameter='0,2', Converter={StaticResource Cnvrvle}, ElementName=Main}" 
+                                CenterY="{Binding ActualTempStackSize.Width, ConverterParameter='0,2', Converter={StaticResource Cnvrvle}, ElementName=Main}" 
+                                Angle="{Binding CHG,Mode=TwoWay}" />
+
+                        </Image.RenderTransform>
+
+                    </Image>
+
+
+                </StackPanel>
+
+
+
+                <StackPanel VerticalAlignment="Center" 
+                           HorizontalAlignment="Center">
+                    <TextBlock x:Name="Temerature"
+                                      Style="{StaticResource TitleTextBox}"
+                                      TextAlignment="Center"
+                                      FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,20'}"
+                               >
+                        <Run Text="{Binding Temperature.Metric.Value,Converter={StaticResource DoubleToInt},StringFormat='{}{0}°',UpdateSourceTrigger=PropertyChanged}"/>
+                        
+                    </TextBlock>
+
+                    <TextBlock x:Name="ReelFeelTextBlok"
+                                      Style="{StaticResource TitleTextBox}"
+                                      HorizontalAlignment="Center"
+                                      Text="{Binding RealFeelTemperature.Metric.Value,StringFormat='Reel feel {0}°'}"
+                                      FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,04'}"
+                                       />
+                    <TextBlock x:Name="WeaterDescription"
+                                  Style="{StaticResource TitleTextBox}"
+                                  Text="{Binding WeatherText,UpdateSourceTrigger=PropertyChanged}"
+                                  TextAlignment="Center"
+                                  FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,055'}"
+                               />
+
+                    <TextBox Text="{Binding WeatherIcon, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                        
+                    </TextBox>
+                </StackPanel>
+
+            </StackPanel>
+
+
+
+
+
+        </StackPanel>
+
+
+        <StackPanel DataContext="{StaticResource VM}">
+            <TextBlock x:Name="CityTextBlock"
+                           Foreground="{StaticResource CityTextColor}"
+                           Text="{Binding SelectedCity.LocalizedName, UpdateSourceTrigger=PropertyChanged}"
+                           FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,06'}"
+                           TextAlignment="Center"
+                           FontWeight="Bold"
+                           />
+            <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Center">
+                <TextBlock x:Name="CountryTextBlock"
+                           Foreground="{StaticResource CityTextColor}"
+                           Text="{Binding SelectedCity.Country.LocalizedName ,UpdateSourceTrigger=PropertyChanged}"
+                           FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,04'}"
+                           TextAlignment="Center"
+                           FontWeight="Bold"
+                           Margin="0,0,5,10"
+                           />
+                <Image Source="{Binding SelectedCity.Country.LocalizedName, Converter={StaticResource Flag}}"
+                       Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,055'}"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+            <Image Source="/Assets/wind-direction.png"
+                   Height="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,13'}"
+                   Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,15'}"
+                   >
+                <Image.RenderTransform>
+                    <RotateTransform  CenterX="7" CenterY="0"
+                                     Angle="{Binding Wind.Speed.Metric.Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource WindSpeed},ConverterParameter='-1,2' }" >
+
+                    </RotateTransform>
+                </Image.RenderTransform>
+            </Image>
+
+            <TextBlock Style="{StaticResource TitleTextBox}"
+                       FontSize="20"
+                        Text="{Binding Wind.Speed.Metric.Value}"/>
+
+
+        </StackPanel>-->
+
+        <Grid Margin="5">
+            <Border BorderThickness="2" BorderBrush="Black" Margin="-8"/>
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+
+
+
+                <Grid>
+                    <Image x:Name="pointer" Source="/Assets/pointer.png" Stretch="Fill" SizeChanged="Stack_SizeChanged"
+                           Height="{Binding ActualTempStackSize.Width, ConverterParameter='0,11', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                           Width="{Binding ActualTempStackSize.Width, ConverterParameter='0,11', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                           
+                           >
+                        <Image.RenderTransform>
+                            <RotateTransform CenterX="{Binding ActualTempStackSize.Width, ConverterParameter='0,055', Converter={StaticResource Cnvrvle}, ElementName=Main}" 
+                                             CenterY="{Binding ActualTempStackSize.Width, ConverterParameter='0,06', Converter={StaticResource Cnvrvle}, ElementName=Main}" 
+                                             Angle="{Binding Wind.Direction.Degrees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </Image.RenderTransform>
+                    </Image>
+
+                    <Image x:Name='s' Source="/Assets/krug.png" Stretch="Fill"
+                       Height="{Binding ActualTempStackSize.Width, ConverterParameter='0,2', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                       Width="{Binding ActualTempStackSize.Width, ConverterParameter='0,2', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                       SizeChanged="Stack_SizeChanged"
+                       />
+                </Grid>
+
+
+                <TextBlock Style="{StaticResource TitleTextBox}"
+                           FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,038'}"
+                           Margin="0,0,0,0">
+                    <Run Text="Wind&#x0d;"/>
+                    <Run Text="{Binding Wind.Direction.Localized,StringFormat='{}{0}&#x0d;'}"/>
+                    <Run Text="{Binding Wind.Speed.Metric.Value}"/> 
+                    <Run Text="{Binding Wind.Speed.Metric.Unit}"/>
+
+                </TextBlock>
+
+
+                <StackPanel Orientation="Horizontal">
+
+
+                    <Image x:Name="raindrop" Source="/Assets/homePageLook/raindropAlt1.png" Stretch="Fill" 
+                           Height="{Binding ActualTempStackSize.Width, ConverterParameter='0,17', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                           Width="{Binding ActualTempStackSize.Width, ConverterParameter='0,12', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                           SizeChanged="Stack_SizeChanged"
+                           >
+
+                    </Image>
+
+
+                    <TextBlock Style="{StaticResource TitleTextBox}"
+                               FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,038'}"
+
+                                  >
+                        <Run Text="Relative&#x0d;Humidity&#x0d;"/>
+                        <Run Text="{Binding RelativeHumidity,StringFormat='{}{0}'}"/> 
+                        <Run Text="%"/>
+                    </TextBlock>
+
+
+
+                </StackPanel>
+
+
+                <Grid DataContext="{StaticResource VM}">
+
+                    <Image x:Name='meterPresureBoxRed' Stretch="Fill"  Source="/Assets/homePageLook/boxPresureFullColored.png"
+                       Height="{Binding ActualTempStackSize.Width, ConverterParameter='0,19', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                       Width="{Binding ActualTempStackSize.Width, ConverterParameter='0,12', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                       SizeChanged="Stack_SizeChanged"
+                       >
+                        <Image.RenderTransform >
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="1" CenterY="{Binding ActualTempStackSize.Width, ConverterParameter='0,161', Converter={StaticResource Cnvrvle}, ElementName=Main}"/>
+                            </TransformGroup>
+
+                        </Image.RenderTransform>
+                    </Image>
+
+                    <Image x:Name='meterPresureBoxYellow' Stretch="Fill"  Source="/Assets/homePageLook/arrow.png"
+                       Height="{Binding ActualTempStackSize.Width, ConverterParameter='0,24', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                       Width="{Binding ActualTempStackSize.Width, ConverterParameter='0,16', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                       SizeChanged="Stack_SizeChanged"
+                       >
+                        <Image.RenderTransform >
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="1" CenterY="{Binding ActualTempStackSize.Width,ConverterParameter='0,161', Converter={StaticResource Cnvrvle}, ElementName=Main}"/>
+                                <TranslateTransform  Y="{Binding ActualTempStackSize.Width, Converter={StaticResource Pressure},Mode=TwoWay, ElementName=Main,UpdateSourceTrigger=PropertyChanged}"/>
+                            </TransformGroup>
+
+                        </Image.RenderTransform>
+                    </Image>
+
+                    <!--<Image x:Name='meterPresureBoxYellow' Stretch="Fill"  Source="/Assets/homePageLook/meterPresureYellow.png"
+                       Height="{Binding ActualTempStackSize.Width, ConverterParameter='0,18', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                       Width="{Binding ActualTempStackSize.Width, ConverterParameter='0,12', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                       SizeChanged="pointer_SizeChanged"
+                       >
+                    <Image.RenderTransform >
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="5.3" CenterY="{Binding ActualTempStackSize.Width, ConverterParameter='0,161', Converter={StaticResource Cnvrvle}, ElementName=Main}"/>
+                        </TransformGroup>
+
+                    </Image.RenderTransform>
+                </Image>
+
+                <Image x:Name='meterPresureBoxGreen' Stretch="Fill"  Source="/Assets/homePageLook/meterPresureGreen.png"
+                       Height="{Binding ActualTempStackSize.Width, ConverterParameter='0,18', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                       Width="{Binding ActualTempStackSize.Width, ConverterParameter='0,12', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                       SizeChanged="pointer_SizeChanged"
+                       >
+                    <Image.RenderTransform >
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="4.7" CenterY="{Binding ActualTempStackSize.Width, ConverterParameter='0,161', Converter={StaticResource Cnvrvle}, ElementName=Main}"/>
+                        </TransformGroup>
+
+                    </Image.RenderTransform>
+                </Image>-->
+
+
+
+                    <Image x:Name="BoxPresureRed" Stretch="Fill" Source="/Assets/homePageLook/boxPresure.png"
+                           Height="{Binding ActualTempStackSize.Width, ConverterParameter='0,19', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                           Width="{Binding ActualTempStackSize.Width, ConverterParameter='0,13', Converter={StaticResource Cnvrvle}, ElementName=Main}"
+                           SizeChanged="Stack_SizeChanged"
+                           >
+
+                    </Image>
+
+
+                </Grid>
+
+
+
+                <TextBlock Style="{StaticResource TitleTextBox}"
+                           FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,038'}"
+
+                       >
+                    <Run Text="Pressure&#x0d;"/>
+                    <Run Text="{Binding Pressure.Metric.Value ,UpdateSourceTrigger=PropertyChanged}"/>
+                    <Run Text="{Binding Pressure.Metric.Unit ,UpdateSourceTrigger=PropertyChanged,StringFormat='{}{0}&#x0d;'}"/>
+                    <Run Text="{Binding PressureTendency.LocalizedText}"/>
+                </TextBlock>
+
+
+
+
+            </StackPanel>
+        </Grid>
+
+
+
+
+
+
+
+
+        <StackPanel DataContext="{StaticResource VM}"
+                    Orientation="Horizontal"
+                    >
+
+
+            <ListView ItemsSource="{Binding Dailies}"
+                      IsEnabled="False"
+                      
+                      >
+
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+
+                        <StackPanel Background="{StaticResource mainBackGround}"
+                                    Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,31'}"
+                                    HorizontalAlignment="Center"
+                                    >
+                            <TextBlock Style="{StaticResource TitleTextBox}"
+                                       TextAlignment="Center"
+                                       FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,05'}"
+                                       Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,3'}"
+                                       Text="{Binding Date.Date.DayOfWeek}"/>
+                            <Image Source="{Binding Day.Icon, Converter={StaticResource WeaterIcon}}"
+                                  Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,3'}"
+                                    />
+                            <TextBlock Style="{StaticResource TitleTextBox}"
+                                       TextAlignment="Center"
+                                       Background="#F83030"
+                                       FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,04'}"
+                                       Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,3'}"
+                                       Text="{Binding Temperature.Maximum.Value}"
+                                       />
+                            <TextBlock Style="{StaticResource TitleTextBox}"
+                                       TextAlignment="Center"
+                                       Background="#000032"
+                                       FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,04'}"
+                                       Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,3'}"
+                                       Text="{Binding Temperature.Minimum.Value}"/>
+
+                            
+                        </StackPanel>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                
+                
+
+            </ListView>
+
+
+
+        </StackPanel>
+
+
+    </StackPanel>
+</Window>

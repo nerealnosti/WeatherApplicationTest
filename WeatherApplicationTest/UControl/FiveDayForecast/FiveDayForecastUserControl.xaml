@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="WeatherApplicationTest.UControl.FiveDayForecastUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WeatherApplicationTest.UControl"
+             xmlns:five="clr-namespace:WeatherApplicationTest.UControl.FiveDayForecast"
+             mc:Ignorable="d" 
+             Name="Main"
+             d:DesignHeight="150" d:DesignWidth="300"
+             >
+    <UserControl.Resources>
+        
+    </UserControl.Resources>
+    
+        <StackPanel Orientation="Vertical"
+                    Width="{Binding WidthAct.Width, Converter={StaticResource Cnvrt},ConverterParameter='0,2'}"
+                    Background="DimGray"
+                    Height="300"
+                    DataContext="{StaticResource VM}"
+                    >
+            <TextBlock IsEnabled="False"
+                       Name="WeekDay"
+                       FontSize="{Binding WidthAct.Width, Converter={StaticResource Cnvrt},ConverterParameter='0,05'}"
+                       Text="{Binding TextDP, ElementName=Main,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                       Foreground="White"
+                       Style="{StaticResource TitleTextBox}"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       TextAlignment="Center"
+                       />
+            
+            <Image Width="{Binding WidthAct.Width, Converter={StaticResource Cnvrt},ConverterParameter='0,15'}"
+                   Source="{Binding Daily.Day.Icon, Converter={StaticResource WeaterIcon}}"
+                   />
+
+        <StackPanel HorizontalAlignment="Center"
+                    Width="{Binding WidthAct.Width, Converter={StaticResource Cnvrt},ConverterParameter='0,2'}">
+            <TextBlock IsEnabled="False"
+                   Style="{StaticResource TitleTextBox}"
+                   TextAlignment="Center"
+                   >
+            <Run Text="c"/>
+            </TextBlock>
+            <TextBlock Style="{StaticResource TitleTextBox}"
+                       TextAlignment="Center"
+                       IsEnabled="False"
+                       FontSize="{Binding WidthAct.Width, Converter={StaticResource Cnvrt},ConverterParameter='0,04'}"
+                       Background="DarkRed"
+                       Width="{Binding Path= Width, RelativeSource={RelativeSource AncestorType=StackPanel, Mode=FindAncestor}}"
+                       Text="{Binding Path=MaxTemp,ElementName=Main, UpdateSourceTrigger=PropertyChanged}">
+                
+                <Run Text="{Binding Path=MaxTemp, ElementName=Main , UpdateSourceTrigger=PropertyChanged}"/>
+                <Run Text="°"/>
+            </TextBlock>
+
+            <TextBlock Style="{StaticResource TitleTextBox}"
+                       TextAlignment="Center"
+                       IsEnabled="False"
+                       FontSize="{Binding WidthAct.Width, Converter={StaticResource Cnvrt},ConverterParameter='0,04'}"
+                       Background="DarkBlue"
+                       Width="{Binding Path= Width, RelativeSource={RelativeSource AncestorType=StackPanel, Mode=FindAncestor}}"
+                       >
+                       
+                <Run Text="{Binding Path=MinTemp, ElementName=Main , UpdateSourceTrigger=PropertyChanged}"/>
+                <Run Text="°"/>
+            </TextBlock>
+
+        </StackPanel>
+
+        
+
+    </StackPanel>
+    
+</UserControl>
