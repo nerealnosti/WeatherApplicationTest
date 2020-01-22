@@ -6,6 +6,7 @@
              xmlns:convert="clr-namespace:WeatherApplicationTest.ViewModel.Commands"
              xmlns:converters="clr-namespace:WeatherApplicationTest.ViewModel.Converter"
              xmlns:Five="clr-namespace:WeatherApplicationTest.UControl.FiveDayForecast"
+             
              StartupUri="View/WeaterHomePageWindow.xaml"
              >
     <Application.Resources >
@@ -62,5 +63,6 @@
         <converters:DayNightTimeConverter x:Key="NightDay"/>
         <converters:WeaterIconConverter x:Key="WeaterIcon"/>
         <Five:PropForFiveDayControl x:Key="Fivedays"/>
+        
     </Application.Resources>
 </Application>

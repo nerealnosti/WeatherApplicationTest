@@ -41,6 +41,18 @@ namespace WeatherApplicationTest.ViewModel
 
 
 
+        private string _ip;
+
+        public string IP
+        {
+            get { return _ip; }
+            set
+            {
+                _ip = value;
+                OnPropertyChanged(nameof(IP));
+            }
+
+        }
 
 
 
@@ -201,66 +213,18 @@ namespace WeatherApplicationTest.ViewModel
                 WeaterApp = this;
                 trut = true;
             }
+            
             Cities = new ObservableCollection<City>();
             Dailies = new ObservableCollection<DailyForecast>();
             Command = new Command(WeaterApp);
             WidthAct = WeaterHomePageWindow.Act;
             CitiesEmpty = true;
-            CurrentCondition = new CurrentCondition
-            {
-                Temperature = new Model.Temperature()
-                {
-                    Metric = new Metric
-                    {
-                        Value = -22.2
-                    }
-                },
-
-                RealFeelTemperature = new ApparentTemperature()
-                {
-                    Metric = new Metric
-                    {
-                        Value = 23
-                    }
-                },
-
-                WeatherText = "Sunny",
-
-                Wind = new Wind
-                {
-                    Direction = new Direction()
-                    {
-                        Degrees = 132,
-                        Localized = "SEE"
-                    },
-                    Speed = new ApparentTemperature()
-                    {
-                        Metric = new Metric
-                        {
-                            Value = 132,
-                            Unit = "km/h"
-                        }
-                    },
-
-                },
-                Pressure = new ApparentTemperature()
-                {
-                    Metric = new Metric
-                    {
-                        Value = 950
-                    }
-                },
-                WeatherIcon = 16
-                    
-                    
-                
-                    
-                };
-
+            IP = new System.Net.WebClient().DownloadString("https://api.ipify.org");
+            GetCurrentConditionIPAsync();
             
 
-                
-            }
+            
+        }
 
         
 
@@ -269,11 +233,12 @@ namespace WeatherApplicationTest.ViewModel
             ApiSendingFormat.failResponse = false;
             NoResultSearch = false;
             NoResponse = false;
-            
+
+
             var cities = await ApiSendigFormat.ApiSendingFormat.GetCitiesAsync(Query);
             
 
-            if (cities.Count !=0)
+            if (cities.Count != 0)
             {
                 if (Cities.Count > 0)
                 {
@@ -285,7 +250,7 @@ namespace WeatherApplicationTest.ViewModel
                 {
                     Cities.Add(item);
                 }
-                Task.WaitAny();
+                
                 CitiesEmpty = false;
 
                 return;
@@ -307,6 +272,16 @@ namespace WeatherApplicationTest.ViewModel
             
         }
 
+
+        private async Task GetCurrentConditionIPAsync()
+        {
+            SelectedCity = await ApiSendingFormat.IPCityName();
+            CurrentCondition = await ApiSendingFormat.CurrentConditionsAsync(SelectedCity.Key);
+            await Task.Delay(TimeSpan.FromSeconds(1));
+            WeaterHomePageWindow.Act.Width = (1 - 1);
+
+        }
+
         private async Task GetCurrentConditionAsync()
         {
             Query = string.Empty;
@@ -318,7 +293,7 @@ namespace WeatherApplicationTest.ViewModel
             }
             CitiesEmpty = true;
             CurrentCondition = await ApiSendingFormat.CurrentConditionsAsync(SelectedCity.Key);
-            Task.Delay(TimeSpan.FromSeconds(2));
+            await Task.Delay(TimeSpan.FromSeconds(1));
             WeaterHomePageWindow.Act.Width = (1 - 1);
             
         }

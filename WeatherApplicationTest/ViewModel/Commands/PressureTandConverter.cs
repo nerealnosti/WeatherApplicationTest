@@ -66,7 +66,7 @@ namespace WeatherApplicationTest.ViewModel.Commands
         {
 
             double.TryParse(value.ToString(), out double val);
-            double.TryParse(WeaterAppInput.CurrentCondition.Pressure.Metric.Value.ToString(), out double CC);
+            double.TryParse(WeaterAppInput?.CurrentCondition?.Pressure.Metric.Value.ToString(), out double CC);
             var c = (val*(-0.075 + (Cnvrt(CC))));
             return c;
         }
