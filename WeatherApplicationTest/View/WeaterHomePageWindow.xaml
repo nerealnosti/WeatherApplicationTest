@@ -371,43 +371,51 @@
                       
                       >
 
+                
+
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel Orientation="Horizontal"></StackPanel>
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
+
+                
+                
                 <ListView.ItemTemplate>
+                    
                     <DataTemplate>
 
-                        <StackPanel Background="{StaticResource mainBackGround}"
+                        
+                            <StackPanel Background="{StaticResource mainBackGround}"
                                     Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,31'}"
                                     HorizontalAlignment="Center"
+                                    
                                     >
-                            <TextBlock Style="{StaticResource TitleTextBox}"
+                                <TextBlock Style="{StaticResource TitleTextBox}"
                                        TextAlignment="Center"
                                        FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,05'}"
                                        Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,3'}"
                                        Text="{Binding Date.Date.DayOfWeek}"/>
-                            <Image Source="{Binding Day.Icon, Converter={StaticResource WeaterIcon}}"
+                                <Image Source="{Binding Day.Icon, Converter={StaticResource WeaterIcon}}"
                                   Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,3'}"
                                     />
-                            <TextBlock Style="{StaticResource TitleTextBox}"
+                                <TextBlock Style="{StaticResource TitleTextBox}"
                                        TextAlignment="Center"
                                        Background="#F83030"
                                        FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,04'}"
                                        Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,3'}"
                                        Text="{Binding Temperature.Maximum.Value}"
                                        />
-                            <TextBlock Style="{StaticResource TitleTextBox}"
+                                <TextBlock Style="{StaticResource TitleTextBox}"
                                        TextAlignment="Center"
                                        Background="#000032"
                                        FontSize="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,04'}"
                                        Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,3'}"
                                        Text="{Binding Temperature.Minimum.Value}"/>
 
-                            
-                        </StackPanel>
 
+                            </StackPanel>
+                        
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 

@@ -42,6 +42,7 @@
 
         
 
+
         <Style TargetType="TextBlock" x:Key="TitleTextBox">
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontFamily" Value="Assets/BRLNSR.TTF#Berlin Sans FB"/>

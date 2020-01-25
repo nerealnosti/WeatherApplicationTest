@@ -45,7 +45,7 @@ namespace WeatherApplicationTest.ApiSendigFormat
 
 
 
-            using(HttpClient client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
                 var response = await client.GetAsync(url);
                 failResponse = !response.IsSuccessStatusCode;
@@ -55,36 +55,36 @@ namespace WeatherApplicationTest.ApiSendigFormat
 
                     cities = JsonConvert.DeserializeObject<List<City>>(Json);
 
-                    
+
                 }
 
-                
+
             }
 
-            
+
             return cities;
         }
 
 
-        public static async Task<CurrentCondition> CurrentConditionsAsync (string cityKey)
+        public static async Task<CurrentCondition> CurrentConditionsAsync(string cityKey)
         {
             CurrentCondition current = new CurrentCondition();
             string url = Base_url + string.Format(CurrentCondition_EndPoint, cityKey, API);
 
-            using(HttpClient httpClient = new HttpClient())
+            using (HttpClient httpClient = new HttpClient())
             {
                 var response = await httpClient.GetAsync(url);
                 string json = await response.Content.ReadAsStringAsync();
-                var currentt= CurrentCondition.FromJson(json);
+                var currentt = CurrentCondition.FromJson(json);
                 current = (CurrentCondition)currentt.First();
 
             }
-            
-            
+
+
             return current;
         }
 
-        public static async Task<List<DailyForecast>> FiveDays (string cityKey)
+        public static async Task<List<DailyForecast>> FiveDays(string cityKey)
         {
             FiveDayForecast fiveDayForecasts = new FiveDayForecast();
             List<DailyForecast> dailyForecasts = new List<DailyForecast>();
@@ -98,14 +98,14 @@ namespace WeatherApplicationTest.ApiSendigFormat
                 if (response.IsSuccessStatusCode)
                 {
                     var Json = await response.Content.ReadAsStringAsync();
-                    
+
                     fiveDayForecasts = JsonConvert.DeserializeObject<FiveDayForecast>(Json);
                     /*fiveDayForecasts = JsonConvert.DeserializeObject<List<FiveDayForecast>>(Json);*/
 
                 }
             }
 
-            dailyForecasts = (List<DailyForecast>) fiveDayForecasts.DailyForecasts;
+            dailyForecasts = (List<DailyForecast>)fiveDayForecasts.DailyForecasts;
             dailyForecasts.Remove(dailyForecasts.First());
             dailyForecasts.Remove(dailyForecasts.Last());
             return dailyForecasts;
@@ -113,17 +113,19 @@ namespace WeatherApplicationTest.ApiSendigFormat
         }
 
 
+
         public static async Task<City> IPCityName()
         {
             string CityIPName = string.Empty;
             City IPCity = new City();
-            var t  = IpPublicKnowledge.IPK.GetIpInfo(IpPublicKnowledge.IPK.GetMyPublicIp());
+            var t = IpPublicKnowledge.IPK.GetIpInfo(IpPublicKnowledge.IPK.GetMyPublicIp());
             Lat = t.lat;
             Lon = t.lon;
 
 
+
             CityIPName = Base_urlCityLoad + string.Format(AutoCompleteCityLoad, API, Lat, Lon);
-            using(HttpClient httpClient = new HttpClient())
+            using (HttpClient httpClient = new HttpClient())
             {
                 var response = await httpClient.GetAsync(CityIPName);
                 if (response.IsSuccessStatusCode)
@@ -140,3 +142,5 @@ namespace WeatherApplicationTest.ApiSendigFormat
 
     }
 }
+
+   

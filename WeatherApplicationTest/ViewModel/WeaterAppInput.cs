@@ -145,8 +145,9 @@ namespace WeatherApplicationTest.ViewModel
                     selectedCity = value;
                     OnPropertyChanged(nameof(SelectedCity));
                     GetCurrentConditionAsync();
-                    KeySelected =  selectedCity.Key;
                     GetFiveDayForecast();
+                    KeySelected =  selectedCity.Key;
+                    
                     CitiesEmpty = true;
                 }
 
@@ -276,10 +277,9 @@ namespace WeatherApplicationTest.ViewModel
         private async Task GetCurrentConditionIPAsync()
         {
             SelectedCity = await ApiSendingFormat.IPCityName();
-            CurrentCondition = await ApiSendingFormat.CurrentConditionsAsync(SelectedCity.Key);
-            await Task.Delay(TimeSpan.FromSeconds(1));
+            /*CurrentCondition = await ApiSendingFormat.CurrentConditionsAsync(SelectedCity.Key);*/
             WeaterHomePageWindow.Act.Width = (1 - 1);
-
+            
         }
 
         private async Task GetCurrentConditionAsync()
@@ -293,7 +293,7 @@ namespace WeatherApplicationTest.ViewModel
             }
             CitiesEmpty = true;
             CurrentCondition = await ApiSendingFormat.CurrentConditionsAsync(SelectedCity.Key);
-            await Task.Delay(TimeSpan.FromSeconds(1));
+            /*await Task.Delay(TimeSpan.FromSeconds(2));*/
             WeaterHomePageWindow.Act.Width = (1 - 1);
             
         }
@@ -302,7 +302,7 @@ namespace WeatherApplicationTest.ViewModel
         private async Task GetFiveDayForecast()
         {
             Dailies?.Clear();
-            var Daily1 = await ApiSendingFormat.FiveDays(KeySelected);
+            var Daily1 = await ApiSendingFormat.FiveDays(selectedCity.Key);
 
             foreach (var item in Daily1)
             {
