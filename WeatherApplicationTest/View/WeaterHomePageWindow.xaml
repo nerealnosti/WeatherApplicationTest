@@ -13,11 +13,11 @@
         mc:Ignorable="d"
         Title="WeaterHomePageWindow" Height="800" Width="400" 
         WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
-        Topmost="True"
         WindowStyle="None"  AllowsTransparency="True" Background="Transparent"
         Name="Main"
         DataContext="{StaticResource VM}"
         MouseDown="Main_MouseDown"
+        
         
         >
     <Window.Resources>
@@ -41,7 +41,7 @@
         
 
     </Window.Resources> 
-    <StackPanel x:Name="Stack" Background="{Binding IsDayTime, Converter={StaticResource NightDay}}" Focusable="True" MouseDown="MainWindowGrid_MouseDown"
+    <StackPanel x:Name="Stack" Background="{Binding IsDayTime, Converter={StaticResource NightDay},FallbackValue={StaticResource mainBackGround}}" Focusable="True" MouseDown="MainWindowGrid_MouseDown"
                 DataContext="{Binding CurrentCondition,UpdateSourceTrigger=PropertyChanged}"
                 SizeChanged="Stack_SizeChanged">
 

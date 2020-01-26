@@ -20,14 +20,17 @@ using WeatherApplicationTest.ViewModel.Commands;
 using WeatherApplicationTest.UC;
 using System.Collections.ObjectModel;
 using WeatherApplicationTest.UControl;
-
+using System.Diagnostics;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Data.SqlTypes;
 
 namespace WeatherApplicationTest.ViewModel
 {
     
     public class WeaterAppInput : DependencyObject, INotifyPropertyChanged
     {
-        public static string KeySelected = "";
+        
         public int CHG
         {
             get { return (int)GetValue(CHGProperty); }
@@ -103,6 +106,7 @@ namespace WeatherApplicationTest.ViewModel
 
         public ObservableCollection<City> Cities { get; set; }
         public ObservableCollection<DailyForecast> Dailies{get; set;}
+        
 
 
         private string query;
@@ -146,7 +150,6 @@ namespace WeatherApplicationTest.ViewModel
                     OnPropertyChanged(nameof(SelectedCity));
                     GetCurrentConditionAsync();
                     GetFiveDayForecast();
-                    KeySelected =  selectedCity.Key;
                     
                     CitiesEmpty = true;
                 }
@@ -195,7 +198,7 @@ namespace WeatherApplicationTest.ViewModel
         public Command Command { get; set; }
         public PressureTandConverter PressureTandConverter { get; set; }
 
-
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -214,17 +217,23 @@ namespace WeatherApplicationTest.ViewModel
                 WeaterApp = this;
                 trut = true;
             }
-            
+            Application.Current.MainWindow.Closing += MainWindow_Closing;
+            Application.Current.MainWindow.Loaded += MainWindow_Loaded;
             Cities = new ObservableCollection<City>();
             Dailies = new ObservableCollection<DailyForecast>();
             Command = new Command(WeaterApp);
             WidthAct = WeaterHomePageWindow.Act;
             CitiesEmpty = true;
-            IP = new System.Net.WebClient().DownloadString("https://api.ipify.org");
-            GetCurrentConditionIPAsync();
-            
 
-            
+            if (!File.Exists(@"..\..\Serialzation\SelectedCity.dat"))
+            {
+
+                IP = new System.Net.WebClient().DownloadString("https://api.ipify.org");
+                GetCurrentConditionIPAsync();
+
+            }
+
+
         }
 
         
@@ -277,7 +286,6 @@ namespace WeatherApplicationTest.ViewModel
         private async Task GetCurrentConditionIPAsync()
         {
             SelectedCity = await ApiSendingFormat.IPCityName();
-            /*CurrentCondition = await ApiSendingFormat.CurrentConditionsAsync(SelectedCity.Key);*/
             WeaterHomePageWindow.Act.Width = (1 - 1);
             
         }
@@ -309,10 +317,58 @@ namespace WeatherApplicationTest.ViewModel
                 Dailies.Add(item);
 
             }
+
+            
         }
 
-       
-        
+        #region MainLoad and Close Serialization
+        /// <summary>
+        /// On main window closing serialization City
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            if (SelectedCity != null)
+            {
+                Serialization(SelectedCity);
+            }
+        }
+
+        /// <summary>
+        /// On window loaded deserialzation city
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            if (File.Exists(@"..\..\Serialzation\SelectedCity.dat"))
+            {
+                using (Stream stream = File.Open(@"..\..\Serialzation\SelectedCity.dat", FileMode.Open))
+                {
+                    BinaryFormatter bin = new BinaryFormatter();
+                    SelectedCity = (City)bin.Deserialize(stream);
+                } 
+            } 
+            
+        } 
+
+        #endregion
+
+
+        public static void Serialization(City city)
+        {
+            using(Stream stream = File.Open(@"..\..\Serialzation\SelectedCity.dat", FileMode.OpenOrCreate))
+            {
+
+                BinaryFormatter bin = new BinaryFormatter();
+
+                bin.Serialize(stream, city);
+
+
+            }
+        }
     }
 
     

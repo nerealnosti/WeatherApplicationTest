@@ -6,19 +6,20 @@ using System.Threading.Tasks;
 
 namespace WeatherApplicationTest.Model
 {
-    
+        [Serializable()]
         public class Country
         {
             public string ID { get; set; }
             public string LocalizedName { get; set; }
         }
-
+        [Serializable()]
         public class AdministrativeArea
         {
             public string ID { get; set; }
             public string LocalizedName { get; set; }
         }
 
+        [Serializable()]
         public class City
         {
             public int Version { get; set; }

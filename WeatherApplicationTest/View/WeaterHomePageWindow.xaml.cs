@@ -60,7 +60,6 @@ namespace WeatherApplicationTest
         {
             ActualTempStackSize = new ActualSize();
             Act = ActualTempStackSize;
-            
             InitializeComponent();
             Stack.Focus();
             

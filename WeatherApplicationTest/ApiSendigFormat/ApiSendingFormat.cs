@@ -30,8 +30,8 @@ namespace WeatherApplicationTest.ApiSendigFormat
         private const string Base_url = "http://dataservice.accuweather.com/";
         private const string AutoComplete = "locations/v1/cities/autocomplete?apikey={0}&q={1}";
         /*private const string API = "cEqkw1lT8vCQWWFR3nxjEKQdGaDp6oPw";*/
-        private const string API = "T6ouI10df3xiOMyjgoAq7GXf3yBsQRbh";
-        /*private const string API = "fcBBktwweYkvpzoFAvMn6fgAXUv72c6y";*/
+        /*private const string API = "T6ouI10df3xiOMyjgoAq7GXf3yBsQRbh";*/
+        private const string API = "fcBBktwweYkvpzoFAvMn6fgAXUv72c6y";
         private const string CurrentCondition_EndPoint = "currentconditions/v1/{0}?apikey={1}&details=true";
         private const string FiveDayForecast_url = "forecasts/v1/daily/5day/{0}?apikey={1}&metric=true";
         public static bool failResponse = false;
@@ -87,7 +87,7 @@ namespace WeatherApplicationTest.ApiSendigFormat
         public static async Task<List<DailyForecast>> FiveDays(string cityKey)
         {
             FiveDayForecast fiveDayForecasts = new FiveDayForecast();
-            List<DailyForecast> dailyForecasts = new List<DailyForecast>();
+            List<DailyForecast> dailyForecasts;
             string url = Base_url + string.Format(FiveDayForecast_url, cityKey, API);
             //http://dataservice.accuweather.com/forecasts/v1/daily/5day/298198?apikey=T6ouI10df3xiOMyjgoAq7GXf3yBsQRbh&metric=true
             //http://dataservice.accuweather.com/forecasts/v1/daily/5day/332283?apikey=T6ouI10df3xiOMyjgoAq7GXf3yBsQRbh&metric=true"
@@ -116,7 +116,7 @@ namespace WeatherApplicationTest.ApiSendigFormat
 
         public static async Task<City> IPCityName()
         {
-            string CityIPName = string.Empty;
+            string CityIPName;
             City IPCity = new City();
             var t = IpPublicKnowledge.IPK.GetIpInfo(IpPublicKnowledge.IPK.GetMyPublicIp());
             Lat = t.lat;

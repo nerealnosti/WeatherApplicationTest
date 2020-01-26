@@ -443,6 +443,7 @@
     <Resource Include="Assets\Flags\Zimbabwe.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\IconWeather\Moon.png" />
     <Resource Include="Assets\IconWeather\Rain.png" />
     <Resource Include="Assets\IconWeather\Mostly-Cloudy-T-Storms.png" />
     <Resource Include="Assets\IconWeather\Partly-Sunny-T-Storms.png" />
@@ -471,6 +472,8 @@
     <Resource Include="Assets\krug.png" />
     <Resource Include="Assets\Flags\krug.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Serialzation\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
