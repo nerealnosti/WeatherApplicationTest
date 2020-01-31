@@ -96,7 +96,10 @@ namespace WeatherApplicationTest
             }
         }
 
-        
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
     public class ActualSize:DependencyObject, INotifyPropertyChanged

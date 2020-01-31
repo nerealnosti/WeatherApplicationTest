@@ -52,7 +52,7 @@
         
         <convert:FlagConverter x:Key="Flag"/>
         
-        <VM:WeaterAppInput x:Key="VM" x:Name="VM"/>
+        <VM:WeaterAppInput x:Key="VM" />
         
 
         <ResourceDictionary x:Key="S" Source="UControl/ScrollBar.xaml">

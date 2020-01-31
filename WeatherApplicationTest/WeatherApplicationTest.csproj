@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Alex-T-Splash-Of-Fruit-Button-watermelon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="IpInfo.Api.Client, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\IpInfo.Api.Client.1.0.4\lib\netstandard2.0\IpInfo.Api.Client.dll</HintPath>
@@ -466,6 +469,7 @@
     <Resource Include="Assets\homePageLook\meterPresureGreen.png" />
     <Resource Include="Assets\homePageLook\meterPresureYellow.png" />
     <Resource Include="Assets\homePageLook\boxPresure.png" />
+    <Resource Include="Alex-T-Splash-Of-Fruit-Button-watermelon.ico" />
     <Content Include="Assets\Cmpa.png" />
     <Resource Include="Assets\homePageLook\meterPresure.png" />
     <Resource Include="Assets\homePageLook\raindropAlt.png" />

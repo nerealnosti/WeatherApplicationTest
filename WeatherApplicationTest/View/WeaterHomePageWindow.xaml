@@ -43,9 +43,10 @@
     </Window.Resources> 
     <StackPanel x:Name="Stack" Background="{Binding IsDayTime, Converter={StaticResource NightDay},FallbackValue={StaticResource mainBackGround}}" Focusable="True" MouseDown="MainWindowGrid_MouseDown"
                 DataContext="{Binding CurrentCondition,UpdateSourceTrigger=PropertyChanged}"
-                SizeChanged="Stack_SizeChanged">
+                SizeChanged="Stack_SizeChanged"
+                >
 
-       
+        <Button/>
 
         <DockPanel LastChildFill="False" Panel.ZIndex="1">
 
