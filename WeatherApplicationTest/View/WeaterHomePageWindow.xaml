@@ -34,12 +34,6 @@
             <GradientStop Color="#000000" Offset="1"/>
         </LinearGradientBrush>
 
-
-        <i:EventTrigger x:Key="load" EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding IP}"/>
-        </i:EventTrigger>
-        
-
     </Window.Resources> 
     <StackPanel x:Name="Stack" Background="{Binding IsDayTime, Converter={StaticResource NightDay},FallbackValue={StaticResource mainBackGround}}" Focusable="True" MouseDown="MainWindowGrid_MouseDown"
                 DataContext="{Binding CurrentCondition,UpdateSourceTrigger=PropertyChanged}"
