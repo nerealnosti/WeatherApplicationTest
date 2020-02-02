@@ -71,6 +71,26 @@ namespace WeatherApplicationTest.ViewModel.Converter
                 case 16:
                     return $"{path}Rain.png";
                 case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
+                case 32:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
                     return $"{path}Moon.png";
                 default:
                     return "/Assets/IconWeather/Mostly-Sunny.png";
