@@ -178,25 +178,7 @@
             </StackPanel>
         </StackPanel>
 
-        <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
-            <Image Source="/Assets/wind-direction.png"
-                   Height="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,13'}"
-                   Width="{Binding ElementName=Main, Path= ActualTempStackSize.Width, Converter={StaticResource Cnvrvle}, ConverterParameter='0,15'}"
-                   >
-                <Image.RenderTransform>
-                    <RotateTransform  CenterX="7" CenterY="0"
-                                     Angle="{Binding Wind.Speed.Metric.Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource WindSpeed},ConverterParameter='-1,2' }" >
-
-                    </RotateTransform>
-                </Image.RenderTransform>
-            </Image>
-
-            <TextBlock Style="{StaticResource TitleTextBox}"
-                       FontSize="20"
-                        Text="{Binding Wind.Speed.Metric.Value}"/>
-
-
-        </StackPanel>-->
+        
 
         <Grid Margin="5">
             <Border BorderThickness="2" BorderBrush="Black" Margin="-8"/>
